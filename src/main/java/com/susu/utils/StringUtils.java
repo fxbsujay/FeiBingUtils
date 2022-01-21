@@ -9,6 +9,32 @@ package com.susu.utils;
  */
 public class StringUtils {
 
+    /**
+     * <p>Description: title case</p>
+     * <p>首字母大写</p>
+     */
+    public static String initialBig(String str) {
+        char[] cs = str.toCharArray();
+        System.out.println(cs[0]);
+        if (cs[0] >= 'A' && cs[0] <= 'Z'){
+            return str;
+        }
+        cs[0] -= 32;
+        return String.valueOf(cs);
+    }
+
+    /**
+     * <p>Description: initial lowercase</p>
+     * <p>首字母小写</p>
+     */
+    public static String initialSmall(String str) {
+        char[] cs=str.toCharArray();
+        if (cs[0] >= 'a' && cs[0] <= 'z'){
+            return str;
+        }
+        cs[0] += 32;
+        return String.valueOf(cs);
+    }
 
     /**
      * <p>Description: Clear the space around the string</p>
