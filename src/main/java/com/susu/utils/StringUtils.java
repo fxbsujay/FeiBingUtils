@@ -1,21 +1,52 @@
 package com.susu.utils;
 
+import java.util.UUID;
+
 /**
  * <p>Description: String processing class</p>
+ * <p>字符串处理工具类</p>
  * @author sujay
  * @version 21:19 2022/1/20
- * @see java.lang.String
+ * @see String
  * @since JDK1.8
  */
 public class StringUtils {
 
+
     /**
-     * <p>Description: title case</p>
-     * <p>首字母大写</p>
+     * <p>Description: Are they all numbers</p>
+     * <p>是否全是数字</p>
+     * <pre>
+     * StringUtils.isAllDigital("123.45")    = false
+     * StringUtils.isAllDigital("12345ABC")  = false
+     * StringUtils.isAllDigital(" 12345")    = false
+     * StringUtils.isAllDigital("00000")     = true
+     * StringUtils.isAllDigital("123456")    = true
+     * StringUtils.isAllDigital("")          = true
+     * </pre>
      */
-    public static String initialBig(String str) {
+    public static boolean isAllDigital(String str) {
         char[] cs = str.toCharArray();
-        System.out.println(cs[0]);
+        boolean result = true;
+        for (char c : cs) {
+            if (!Character.isDigit(c)) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * <p>Description: First capital letter</p>
+     * <p>首字母大写,会去掉字符串前后空格</p>
+     */
+    public static String firstLetterBig(String str) {
+        if (isBlank(str)){
+            return str;
+        }
+        char[] cs = dispelBlank(str).toCharArray();
         if (cs[0] >= 'A' && cs[0] <= 'Z'){
             return str;
         }
@@ -24,11 +55,14 @@ public class StringUtils {
     }
 
     /**
-     * <p>Description: initial lowercase</p>
+     * <p>Description: First letter lowercase</p>
      * <p>首字母小写</p>
      */
-    public static String initialSmall(String str) {
-        char[] cs=str.toCharArray();
+    public static String firstLetterSmall(String str) {
+        if (isBlank(str)){
+            return str;
+        }
+        char[] cs = dispelBlank(str).toCharArray();
         if (cs[0] >= 'a' && cs[0] <= 'z'){
             return str;
         }
@@ -37,15 +71,25 @@ public class StringUtils {
     }
 
     /**
-     * <p>Description: Clear the space around the string</p>
+     * <p>Description: get uuid</p>
+     * <p>获取UUID</p>
      */
-    public static String dispelBlank(String str){
+    public static String uuid() {
+        return UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
+    }
+
+    /**
+     * <p>Description: Clear the space around the string</p>
+     * <p>清除字符串两边空白</p>
+     */
+    public static String dispelBlank(String str) {
         return isNotBlank(str) ? str.trim() : "";
     }
 
 
     /**
      * <p>Description: Clear all blanks in string</p>
+     * <p>清除字符串中全部空白</p>
      */
     public static String dispelBlankAll(String str) {
         if (isEmpty(str)){
@@ -65,6 +109,7 @@ public class StringUtils {
 
     /**
      *  <p>Description: Convert object to string</p>
+     *  <p>转为String</p>
      */
     public static String toString(Object object) {
         if (object != null && object.toString().length() > 0) {
@@ -137,9 +182,12 @@ public class StringUtils {
     public static void main(String[] args) {
         String str = "  Hello Word Java ";
         Object obj = "  Hello Word Java ";
-        System.out.println(dispelBlank(str));
-        System.out.println(dispelBlankAll(str));
-        System.out.println(toString(obj));
+        System.out.println("删除前后空白" + dispelBlank(str));
+        System.out.println("删除字符串中所有空白" + dispelBlankAll(str));
+        System.out.println("字符串转换" + toString(obj));
+        System.out.println("首字母大写" + firstLetterBig(" hello"));
+        System.out.println("首字母小写" + firstLetterSmall(" Hello Word"));
+        System.out.println("是否全是数字" + isAllDigital(" 0000"));
     }
 
 }
