@@ -77,20 +77,20 @@ public class ComputeUtils {
     /**
      *  <p>Description: Simple calculation</p>
      *  <p>简单计算</p>
-     * @param a1 参数
-     * @param a2 参数
+     * @param param1 参数
+     * @param param2 参数
      * @param operator 符号
      */
-    private static double doubleCal(double a1, double a2, char operator) throws Exception {
+    private static double doubleCal(double param1, double param2, char operator) throws Exception {
         switch (operator) {
             case '+':
-                return a1 + a2;
+                return param1 + param2;
             case '-':
-                return a1 - a2;
+                return param1 - param2;
             case '*':
-                return a1 * a2;
+                return param1 * param2;
             case '/':
-                return a1 / a2;
+                return param1 / param2;
             default:
                 break;
         }
