@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class IpUtils {
 
-
     public static String getIp(HttpServletRequest request) {
         String unknown = "unknown";
         String ip = null;
@@ -40,6 +39,4 @@ public class IpUtils {
 
         return ip;
     }
-
-
 }

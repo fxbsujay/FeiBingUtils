@@ -239,7 +239,7 @@ public class HttpClientUtils {
 	 * @param params 				请求体参数
 	 * @return HttpClientResult    	http请求响应镀锡
 	 */
-	public static HttpClientResult doPut(String url, Map<String, String> params) throws Exception {
+	public static HttpClientResult doPut(String url, Map<String, String> params) {
 		return doPut(url,params,ENCODING);
 	}
 
@@ -257,13 +257,54 @@ public class HttpClientUtils {
 
 		HttpPut httpPut = new HttpPut(url);
 
-		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT)
-				.setSocketTimeout(SOCKET_TIMEOUT).build();
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT)
+				.build();
 		httpPut.setConfig(requestConfig);
 
 		packageParam(params, httpPut);
 
 		return getHttpClientResult(httpClient, httpPut, charset);
+	}
+
+	/**
+	 * p>Description<: put request</p>
+	 * <p>PUT 请求</p>
+	 * @param url					请求地址 URL
+	 * @param json 					请求体参数
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPutJson(String url, String json) {
+		return doPutJson(url,json,ENCODING);
+	}
+
+	/**
+	 * p>Description<: put request</p>
+	 * <p>PUT 请求</p>
+	 * @param url					请求地址 URL
+	 * @param json 					请求体参数
+	 * @param charset				响应字符集
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPutJson(String url, String json, String charset) {
+
+		CloseableHttpClient httpClient =  HttpClients.createDefault();
+		HttpPut httpPut = new HttpPut(url);
+
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT)
+				.build();
+		httpPut.setConfig(requestConfig);
+
+		httpPut.setHeader("Content-type", "application/json");
+
+		StringEntity requestEntity = new StringEntity(json, ENCODING);
+		requestEntity.setContentEncoding(ENCODING);
+		httpPut.setEntity(requestEntity);
+
+		return getHttpClientResult(httpClient, httpPut,charset);
 	}
 
 	/**
@@ -289,8 +330,12 @@ public class HttpClientUtils {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 
 		HttpDelete httpDelete = new HttpDelete(url);
-		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT)
-				.setSocketTimeout(SOCKET_TIMEOUT).build();
+
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT)
+				.build();
+
 		httpDelete.setConfig(requestConfig);
 
 		return getHttpClientResult( httpClient, httpDelete, charset);
@@ -462,60 +507,53 @@ public class HttpClientUtils {
 		}
 	}
 
+	/**
+	 * <p>Description: Request response object</p>
+	 * <p>请求响应对象</p>
+	 * @author sujay
+	 * @version 15:09 2022/2/18
+	 * @since JDK1.8 <br/>
+	 */
+	static class HttpClientResult {
 
-	public static void main(String[] args) {
-		String s = "http://localhost:8891/dev-api/version";
-		Map<String,String> map = new HashMap<>();
-		map.put("page","1");
-		map.put("limit","10");
-		HttpClientResult httpClientResult = doGet(s, map);
-		System.out.println(httpClientResult.getContent());
+		/**
+		 * 响应状态码
+		 */
+		private int code;
+
+		/**
+		 * 响应数据
+		 */
+		private String content;
+
+		public HttpClientResult(int statusCode, String content) {
+			this.code = statusCode;
+			this.content = content;
+		}
+
+		public HttpClientResult(int statusCode) {
+			this.code = statusCode;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public void setCode(int code) {
+			this.code = code;
+		}
+
+		public String getContent() {
+			return content;
+		}
+
+		public void setContent(String content) {
+			this.content = content;
+		}
 	}
+
 }
 
 
-/**
- * <p>Description: Request response object</p>
- * <p>请求响应对象</p>
- * @author sujay
- * @version 15:09 2022/2/18
- * @since JDK1.8 <br/>
- */
-class HttpClientResult {
 
-	/**
-	 * 响应状态码
-	 */
-	private int code;
-
-	/**
-	 * 响应数据
-	 */
-	private String content;
-
-	public HttpClientResult(int statusCode, String content) {
-		this.code = statusCode;
-		this.content = content;
-	}
-
-	public HttpClientResult(int statusCode) {
-		this.code = statusCode;
-	}
-
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-}
 
