@@ -284,9 +284,9 @@ public class FileUtils {
             }else {
                 for (File file : listFiles) {
                     if (keepDirStructure) {
-                        compress(path + "/" + file.getName(),file, zos, keepDirStructure);
+                        compress(path + "/" + file.getName(),file, zos, true);
                     } else {
-                        compress(file.getName(),file, zos, keepDirStructure);
+                        compress(file.getName(),file, zos, false);
                     }
 
                 }

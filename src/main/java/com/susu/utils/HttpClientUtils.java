@@ -1,15 +1,32 @@
 package com.susu.utils;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.*;
 
 /**
@@ -26,7 +43,12 @@ public class HttpClientUtils {
 	 */
 	private static final String ENCODING = "UTF-8";
 
+
 	/**
+	 * setConnectTimeout：设置连接超时时间，单位毫秒。 setConnectionRequestTimeout：设置从connect
+	 * Manager(连接池)获取Connection 超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
+	 * setSocketTimeout：请求获取数据的超时时间(即响应时间)，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
+	 *
 	 *	设置连接超时时间，单位毫秒
 	 */
 	private static final int CONNECT_TIMEOUT = 6000;
@@ -43,9 +65,19 @@ public class HttpClientUtils {
 	 * @return HttpClientResult    	http请求响应镀锡
 	 */
 	public static HttpClientResult doGet(String url) {
-		return doGet(url, null,null);
+		return doGet(url, null,ENCODING);
 	}
 
+	/**
+	 * <p>Description: get request</p>
+	 * <p>GET 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doGet(String url, Map<String, String> params) {
+		return doGet(url, null, params,ENCODING);
+	}
 
 	/**
 	 * <p>Description: get request</p>
@@ -60,7 +92,7 @@ public class HttpClientUtils {
 	}
 
 	/**
-	 * <p>Description: get request</p>
+	 * p>Description<: get request</p>
 	 * <p>GET 请求</p>
 	 * @param url					请求地址 URL
 	 * @param headers				请求头参数
@@ -87,12 +119,6 @@ public class HttpClientUtils {
 			}
 		}
 
-
-		/**
-		 * setConnectTimeout：设置连接超时时间，单位毫秒。 setConnectionRequestTimeout：设置从connect
-		 * Manager(连接池)获取Connection 超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
-		 * setSocketTimeout：请求获取数据的超时时间(即响应时间)，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
-		 */
 		RequestConfig requestConfig = RequestConfig.custom()
 				.setConnectTimeout(CONNECT_TIMEOUT)
 				.setSocketTimeout(SOCKET_TIMEOUT)
@@ -104,9 +130,183 @@ public class HttpClientUtils {
 		return getHttpClientResult( httpClient, httpGet, charset);
 	}
 
+	/**
+	 * p>Description<: post request</p>
+	 * <p>POST 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPost(String url,Map<String, String> params) {
+		return doPost(url,null,params,ENCODING);
+	}
+
+	/**
+	 * p>Description<: post request</p>
+	 * <p>POST 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @param charset 				响应字符集
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPost(String url,Map<String, String> params,String charset) {
+		return doPost(url,null,params,charset);
+	}
+
+	/**
+	 * p>Description<: post request</p>
+	 * <p>POST 请求</p>
+	 * @param url					请求地址 URL
+	 * @param headers				请求头参数
+	 * @param params 				请求体参数
+	 * @param charset 				响应字符集
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPost(String url, Map<String, String> headers, Map<String, String> params,String charset) {
+
+		CloseableHttpClient httpClient = SSLHttpClientBuild();
+		HttpPost httpPost = new HttpPost(url);
+
+		RequestConfig requestConfig = RequestConfig.custom().
+				setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT)
+				.build();
+		httpPost.setConfig(requestConfig);
+
+		packageHeader(headers, httpPost);
+		packageParam(params, httpPost);
+
+		return getHttpClientResult(httpClient, httpPost,charset);
+	}
+
+	/**
+	 * p>Description<: post request</p>
+	 * <p>POST 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPostJson(String url,String params) {
+		return doPostJson(url,null,params,ENCODING);
+	}
+
+	/**
+	 * p>Description<: post request</p>
+	 * <p>POST 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @param charset 				响应字符集
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPostJson(String url,String params,String charset) {
+		return doPostJson(url,null,params,charset);
+	}
+
+	/**
+	 * p>Description<: post request</p>
+	 * <p>POST 请求</p>
+	 * @param url					请求地址 URL
+	 * @param headers				请求头参数
+	 * @param json 					请求体参数
+	 * @param charset 				响应字符集
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPostJson(String url, Map<String, String> headers, String json, String charset) {
+
+		CloseableHttpClient httpClient = SSLHttpClientBuild();
+		HttpPost httpPost = new HttpPost(url);
+
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT)
+				.build();
+
+		httpPost.setConfig(requestConfig);
+		httpPost.setHeader("Content-type", "application/json");
+		packageHeader(headers, httpPost);
+
+		StringEntity requestEntity = new StringEntity(json, ENCODING);
+		requestEntity.setContentEncoding(ENCODING);
+		httpPost.setEntity(requestEntity);
+
+		return getHttpClientResult(httpClient, httpPost,charset);
+	}
+
+	/**
+	 * p>Description<: put request</p>
+	 * <p>PUT 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPut(String url, Map<String, String> params) throws Exception {
+		return doPut(url,params,ENCODING);
+	}
+
+	/**
+	 * p>Description<: put request</p>
+	 * <p>PUT 请求</p>
+	 * @param url					请求地址 URL
+	 * @param params 				请求体参数
+	 * @param charset 				响应字符集
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doPut(String url, Map<String, String> params, String charset) {
+
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+
+		HttpPut httpPut = new HttpPut(url);
+
+		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT).build();
+		httpPut.setConfig(requestConfig);
+
+		packageParam(params, httpPut);
+
+		return getHttpClientResult(httpClient, httpPut, charset);
+	}
+
+	/**
+	 * p>Description<: delete request</p>
+	 * <p>DELETE 请求</p>
+	 * @param url					请求地址 URL
+	 * @return HttpClientResult    	http请求响应镀锡
+	 */
+	public static HttpClientResult doDelete(String url)  {
+		return doDelete(url, ENCODING);
+	}
+
+
+	/**
+     * p>Description<: delete request</p>
+     * <p>DELETE 请求</p>
+     * @param url					请求地址 URL
+     * @param charset 				响应字符集
+     * @return HttpClientResult    	http请求响应镀锡
+     */
+	public static HttpClientResult doDelete(String url, String charset) {
+
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+
+		HttpDelete httpDelete = new HttpDelete(url);
+		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT)
+				.setSocketTimeout(SOCKET_TIMEOUT).build();
+		httpDelete.setConfig(requestConfig);
+
+		return getHttpClientResult( httpClient, httpDelete, charset);
+	}
 
 	/**
 	 * <p>Description: encapsulation request header</p>
+	 *
+	 * httpPost.setHeader("Cookie", "");
+	 * httpPost.setHeader("Connection","keep-alive");
+	 * httpPost.setHeader("Accept", "application/json");
+	 * httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+	 * httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
+	 * httpPost.setHeader("User-Agent",
+	 * "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
+	 *
 	 * <p>封装请求头</p>
 	 * @param params		请求头参数
 	 * @param httpMethod 	请求体
@@ -123,13 +323,42 @@ public class HttpClientUtils {
 		}
 	}
 
+	/**
+	 * <p>Description: encapsulation request parameters</p>
+	 * <p>封装请求参数</p>
+	 * @param params		请求参数
+	 */
+	public static void packageParam(Map<String, String> params, HttpEntityEnclosingRequestBase httpMethod) {
+
+		if (params != null) {
+
+			try {
+
+				List<NameValuePair> pairs = new ArrayList<>();
+				Set<Map.Entry<String, String>> entrySet = params.entrySet();
+
+				for (Map.Entry<String, String> entry : entrySet) {
+					pairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+				}
+
+				httpMethod.setEntity(new UrlEncodedFormEntity(pairs, ENCODING));
+
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException("封装请求体参数失败！");
+			}
+		}
+	}
+
 
 
 	/**
-	 * <p>Description: close resource</p>
-	 * <p>关闭资源</p>
-	 * @param response       响应体
-	 * @param httpClient 	 客户端
+	 * <p>Description: Get request results</p>
+	 * <p>获取请求结果</p>
+	 * @param httpMethod    请求对象
+	 * @param httpClient 	客户端
+	 * @param charset   	字符集
+	 * @return HttpClientResult   响应对象
+	 * @exception RuntimeException 发送请求失败异常
 	 */
 	public static HttpClientResult getHttpClientResult(CloseableHttpClient httpClient, HttpRequestBase httpMethod,String charset) throws RuntimeException {
 
@@ -147,13 +376,51 @@ public class HttpClientUtils {
 				return new HttpClientResult(httpResponse.getStatusLine().getStatusCode(), content);
 			}
 			return new HttpClientResult(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
 		} catch (Exception e) {
 			throw new RuntimeException("发送请求失败！");
 		}finally {
 			close(httpResponse,httpClient);
 		}
-
 	}
+
+
+	public static CloseableHttpClient SSLHttpClientBuild() {
+
+		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+				.register("http", PlainConnectionSocketFactory.INSTANCE)
+				.register("https", trustAllHttpsCertificates())
+				.build();
+
+		PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+
+		return HttpClients.custom().setConnectionManager(connectionManager).build();
+	}
+
+	/**
+	 * <p>Description: Trust all certificates</p>
+	 * <p>信任所有证书</p>
+	 */
+	private static SSLConnectionSocketFactory trustAllHttpsCertificates() {
+
+		SSLConnectionSocketFactory socketFactory = null;
+		TrustManager[] trustAllCerts = new TrustManager[1];
+		TrustManager tm = new miTM();
+		trustAllCerts[0] = tm;
+		SSLContext sc = null;
+
+		try {
+			sc = SSLContext.getInstance("TLS");
+			sc.init(null, trustAllCerts, null);
+			socketFactory = new SSLConnectionSocketFactory(sc, NoopHostnameVerifier.INSTANCE);
+			// HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (NoSuchAlgorithmException | KeyManagementException e) {
+			e.printStackTrace();
+		}
+
+		return socketFactory;
+	}
+
 
 	/**
 	 * <p>Description: close resource</p>
@@ -178,6 +445,31 @@ public class HttpClientUtils {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	static class miTM implements TrustManager, X509TrustManager {
+
+		public X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+
+		public void checkServerTrusted(X509Certificate[] certs, String authType) {
+			// don't check
+		}
+
+		public void checkClientTrusted(X509Certificate[] certs, String authType) {
+			// don't check
+		}
+	}
+
+
+	public static void main(String[] args) {
+		String s = "http://localhost:8891/dev-api/version";
+		Map<String,String> map = new HashMap<>();
+		map.put("page","1");
+		map.put("limit","10");
+		HttpClientResult httpClientResult = doGet(s, map);
+		System.out.println(httpClientResult.getContent());
 	}
 }
 
@@ -226,3 +518,4 @@ class HttpClientResult {
 		this.content = content;
 	}
 }
+
