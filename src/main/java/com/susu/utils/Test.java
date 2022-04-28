@@ -9,19 +9,12 @@ public class Test {
 
 
     public static void main(String[] args) {
-
-        long start1 = System.currentTimeMillis();
-        for (int i = 0; i < 99999; i++) {
-
-        }
-        long end1 = System.currentTimeMillis();
-        System.out.println(end1 - start1);
-        long start2 = System.currentTimeMillis();
-        for (int i = 0; i < 99999; i++) {
-
-        }
-        long end2 = System.currentTimeMillis();
-        System.out.println(end2 - start2);
+        String a = "3";
+        byte[] bytes = a.getBytes();
+        System.out.println(bytes[0]);
+        System.out.println(0xFF);
+        System.out.println(0xFF & bytes[0]);
+        System.out.println(Integer.toHexString(0xFF & bytes[0]));
     }
 
 }
