@@ -18,7 +18,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -106,18 +105,20 @@ public class HttpClientUtils {
 
 		HttpGet httpGet = new HttpGet();
 
-		if (params != null) {
-			try {
-				URIBuilder uriBuilder = new URIBuilder(url);;
+
+		try {
+			URIBuilder uriBuilder = new URIBuilder(url);;
+			if (params != null) {
 				Set<Map.Entry<String, String>> entrySet = params.entrySet();
 				for (Map.Entry<String, String> entry : entrySet) {
 					uriBuilder.setParameter(entry.getKey(), entry.getValue());
 				}
-				httpGet.setURI(uriBuilder.build());
-			}catch (Exception e) {
-				throw new RuntimeException("请求参数解析异常！");
 			}
+			httpGet.setURI(uriBuilder.build());
+		}catch (Exception e) {
+			throw new RuntimeException("请求参数解析异常！");
 		}
+
 
 		RequestConfig requestConfig = RequestConfig.custom()
 				.setConnectTimeout(CONNECT_TIMEOUT)
@@ -551,7 +552,6 @@ public class HttpClientUtils {
 			this.content = content;
 		}
 	}
-
 }
 
 
