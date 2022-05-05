@@ -19,14 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira.exception;
+package com.susu.serializer.taira.exception;
 
 /**
- * Exception for annotation check
+ * base exception
  */
-public class TairaAnnotationException extends TairaException {
+public class TairaException extends RuntimeException {
 
-    public TairaAnnotationException(String message) {
-        super(message);
+    TairaException(String s) {
+        super(s);
+    }
+
+    TairaException(Throwable throwable) {
+        super(throwable);
     }
 }

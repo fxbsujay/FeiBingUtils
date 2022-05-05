@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
+package com.susu.serializer.taira;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

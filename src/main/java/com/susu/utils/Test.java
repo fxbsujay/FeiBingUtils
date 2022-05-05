@@ -3,8 +3,8 @@ package com.susu.utils;
 import com.susu.serializer.Bar;
 import com.susu.serializer.Baz;
 import com.susu.serializer.Foo;
-import com.susu.taira.Taira;
-import com.susu.taira.TairaData;
+import com.susu.serializer.taira.Taira;
+import com.susu.serializer.taira.TairaData;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
@@ -55,20 +55,25 @@ public class Test {
      * Use Taira serialize/deserialize 1000 times
      */
     private static void taira(TairaData data) {
+
         long serializeStart = System.currentTimeMillis();
         byte[] fooBytes = new byte[0];
+
         for (int i = 0; i < 1000; i++) {
             fooBytes = Taira.DEFAULT.toBytes(data);
         }
+
         System.out.println("Taira serialize x 1000 time cost: " + (System.currentTimeMillis() - serializeStart));
         System.out.println("Taira serialize data size: " + fooBytes.length);
 
         Taira deserializeTaira = new Taira(ByteOrder.BIG_ENDIAN);
         long deserializeStart = System.currentTimeMillis();
         Foo foo = null;
+
         for (int i = 0; i < 1000; i++) {
             foo = deserializeTaira.fromBytes(fooBytes, Foo.class);
         }
+
         System.out.println("Taira deserialize x 1000 time cost: " + (System.currentTimeMillis() - deserializeStart));
         System.out.println("Taira deserialize result: " + String.valueOf(foo));
     }

@@ -23,8 +23,8 @@
  */
 package com.susu.serializer;
 
-import com.susu.taira.TairaData;
-import com.susu.taira.annotation.ParamField;
+import com.susu.serializer.taira.TairaData;
+import com.susu.serializer.taira.annotation.ParamField;
 
 import java.util.Arrays;
 import java.util.List;

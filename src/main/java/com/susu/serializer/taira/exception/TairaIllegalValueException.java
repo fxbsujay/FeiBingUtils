@@ -19,9 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
+package com.susu.serializer.taira.exception;
 
 /**
- * define a data class which Taira can process
+ * exception for serialize
  */
-public interface TairaData {}
+public class TairaIllegalValueException extends TairaException {
+
+    public TairaIllegalValueException(String message) {
+        super(message);
+    }
+}

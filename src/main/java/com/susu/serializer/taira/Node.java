@@ -19,18 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira.exception;
+package com.susu.serializer.taira;
+
+import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
 
 /**
- * base exception
+ * base node
  */
-public class TairaException extends RuntimeException {
+abstract class Node {
 
-    TairaException(String s) {
-        super(s);
+    /**
+     * node class type
+     */
+    Class clazz;
+
+    /**
+     * node field, may be null
+     */
+    Field field;
+
+    Node(Class clazz) {
+        this.clazz = clazz;
     }
 
-    TairaException(Throwable throwable) {
-        super(throwable);
+    Node(Field field) {
+        this.field = field;
+        this.clazz = field.getType();
     }
+
+    /**
+     * evaluate current node byte size
+     *
+     * current only TairaNode/CollectionNode/ByteArrayNode should override
+     */
+    public abstract int evaluateSize(Object value);
+
+    /**
+     * serialize current node value into buffer
+     */
+    public abstract void serialize(ByteBuffer buffer, Object value);
+
+    /**
+     * deserialize current node to object from buffer
+     */
+    public abstract Object deserialize(ByteBuffer buffer);
 }

@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
+package com.susu.serializer.taira;
 
 
-import com.susu.taira.exception.TairaAnnotationException;
-import com.susu.taira.exception.TairaIllegalValueException;
-import com.susu.taira.exception.TairaInternalException;
+import com.susu.serializer.taira.exception.TairaAnnotationException;
+import com.susu.serializer.taira.exception.TairaIllegalValueException;
+import com.susu.serializer.taira.exception.TairaInternalException;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

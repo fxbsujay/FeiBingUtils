@@ -19,10 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
+package com.susu.serializer.taira;
 
-import com.susu.taira.annotation.ParamField;
-import com.susu.taira.exception.TairaIllegalValueException;
+import com.susu.serializer.taira.annotation.ParamField;
+import com.susu.serializer.taira.exception.TairaIllegalValueException;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;

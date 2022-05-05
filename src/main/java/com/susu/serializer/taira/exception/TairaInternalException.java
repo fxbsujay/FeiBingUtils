@@ -19,41 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
-
-import java.nio.ByteBuffer;
+package com.susu.serializer.taira.exception;
 
 /**
- * process primitive type
+ * inner exceptions
  */
-interface PrimitiveProcessor {
+public class TairaInternalException extends TairaException {
 
-    /**
-     * serialize current value into buffer
-     *
-     * @param size lower byte size
-     */
-    void serialize(Object value, ByteBuffer buffer, int size);
+    public TairaInternalException(String message) {
+        super(message);
+    }
 
-    /**
-     * deserialize to value from buffer
-     *
-     * @param size byte size
-     */
-    Object deserialize(ByteBuffer buffer, int size);
-
-    /**
-     * processable
-     */
-    boolean canProcess(Class clazz);
-
-    /**
-     * primitive byte size
-     */
-    int byteSize();
-
-    /**
-     * default value when deserialize
-     */
-    Object defaultValue();
+    public TairaInternalException(Throwable throwable) {
+        super(throwable);
+    }
 }

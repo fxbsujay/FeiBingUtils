@@ -19,49 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
+package com.susu.serializer.taira;
 
-import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 
 /**
- * base node
+ * process primitive type
  */
-abstract class Node {
+interface PrimitiveProcessor {
 
     /**
-     * node class type
-     */
-    Class clazz;
-
-    /**
-     * node field, may be null
-     */
-    Field field;
-
-    Node(Class clazz) {
-        this.clazz = clazz;
-    }
-
-    Node(Field field) {
-        this.field = field;
-        this.clazz = field.getType();
-    }
-
-    /**
-     * evaluate current node byte size
+     * serialize current value into buffer
      *
-     * current only TairaNode/CollectionNode/ByteArrayNode should override
+     * @param size lower byte size
      */
-    public abstract int evaluateSize(Object value);
+    void serialize(Object value, ByteBuffer buffer, int size);
 
     /**
-     * serialize current node value into buffer
+     * deserialize to value from buffer
+     *
+     * @param size byte size
      */
-    public abstract void serialize(ByteBuffer buffer, Object value);
+    Object deserialize(ByteBuffer buffer, int size);
 
     /**
-     * deserialize current node to object from buffer
+     * processable
      */
-    public abstract Object deserialize(ByteBuffer buffer);
+    boolean canProcess(Class clazz);
+
+    /**
+     * primitive byte size
+     */
+    int byteSize();
+
+    /**
+     * default value when deserialize
+     */
+    Object defaultValue();
 }

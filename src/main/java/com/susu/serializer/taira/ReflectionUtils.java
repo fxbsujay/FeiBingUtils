@@ -19,9 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.susu.taira;
+package com.susu.serializer.taira;
 
-import com.susu.taira.exception.TairaInternalException;
+import com.susu.serializer.taira.exception.TairaInternalException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
