@@ -18,8 +18,8 @@ public class ComputeUtils {
     private static final Pattern PATTERN = Pattern.compile("(?<!\\d)-?\\d+(\\.\\d+)?|[+\\-*/()]");
 
     /**
-     *  <p>Description:  Four arithmetic</p>
-     *  <p>四则运算</p>
+     * <p>Description:  Four arithmetic</p>
+     * <p>四则运算</p>
      * @param formula 公式
      */
     public static String compute(String formula) throws Exception {
@@ -74,8 +74,8 @@ public class ComputeUtils {
     }
 
     /**
-     *  <p>Description: Simple calculation</p>
-     *  <p>简单计算</p>
+     * <p>Description: Simple calculation</p>
+     * <p>简单计算</p>
      * @param param1 参数
      * @param param2 参数
      * @param operator 符号

@@ -20,6 +20,8 @@ public class TreeUtils {
     /**
      * <p>Description: According to PID, build tree node</p>
      * <p>根据pid，构建树节点</p>
+     * @param nodeList 目标数组
+     * @param pid 层级为顶级的对象id
      */
     public static <T extends TreeNode<T>> List<T> build(List<T> nodeList, Integer pid) {
         if (pid == null) {
@@ -38,6 +40,8 @@ public class TreeUtils {
     /**
      * <p>Description: Recursively find child nodes</p>
      * <p>递归查找子节点</p>
+     * @param nodeList 目标数组
+     * @param rootNode 父节点id
      */
     private static <T extends TreeNode<T>> T findChildren(List<T> nodeList, T rootNode) {
         for(T node : nodeList) {
@@ -56,6 +60,7 @@ public class TreeUtils {
     /**
      * <p>Description: Build tree node</p>
      * <p>构建树节点</p>
+     * @param nodeList 目标数组
      */
     public static <T extends TreeNode<T>> List<T> build(List<T> nodeList) {
         List<T> result = new ArrayList<>();
