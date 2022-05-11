@@ -1,7 +1,5 @@
 package com.susu.utils;
 
-import com.sun.deploy.util.ArrayUtil;
-
 import java.util.UUID;
 
 /**

@@ -102,17 +102,20 @@ public class ComputeUtils {
      * @param s 符号
      */
     private static int getPriority(String s) throws Exception {
-        if(s==null) {
+        if(s == null) {
             return 0;
         }
         switch(s) {
             case "(":
                 return 1;
             case "+":;
-            case "-":return 2;
+            case "-":
+                return 2;
             case "*":;
-            case "/":return 3;
-            default:break;
+            case "/":
+                return 3;
+            default:
+                break;
         }
         throw new Exception("illegal operator!");
     }
@@ -121,7 +124,4 @@ public class ComputeUtils {
         String str = "-3.5*(4.5-(4+(-1-1/2)))";
         System.out.println(compute(str));
     }
-
-
-
 }

@@ -42,7 +42,6 @@ public class HttpClientUtils {
 	 */
 	private static final String ENCODING = "UTF-8";
 
-
 	/**
 	 * setConnectTimeout：设置连接超时时间，单位毫秒。 setConnectionRequestTimeout：设置从connect
 	 * Manager(连接池)获取Connection 超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。

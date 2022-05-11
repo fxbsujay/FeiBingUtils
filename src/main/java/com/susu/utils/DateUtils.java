@@ -17,7 +17,6 @@ import java.util.Date;
  */
 public class DateUtils {
 
-
     public static final String PATTERN_WHOLE = "yyyy-MM-dd HH:mm:ss";
 
     public static final String PATTERN_YMD = "yyyy-MM-dd";
@@ -37,7 +36,6 @@ public class DateUtils {
     public static String getTime(Date date,String pattern) {
         return  getDateTimeFormatter(pattern).format(getLocalDateTime(date));
     }
-
 
     /**
      *  <p>Description: Get the year of the time</p>

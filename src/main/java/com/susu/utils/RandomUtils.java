@@ -7,7 +7,6 @@ import java.util.Random;
  * <p>生成随机数</p>
  * @author sujay
  * @version 20:59 2022/1/25
- * @see com.meta.tools
  * @since JDK1.8
  */
 public class RandomUtils {
