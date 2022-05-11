@@ -252,7 +252,6 @@ public class StringUtils {
         System.out.println("首字母大写" + firstLetterBig(" hello"));
         System.out.println("首字母小写" + firstLetterSmall(" Hello Word"));
         System.out.println("是否全是数字" + isAllDigital(" 0000"));
-
         System.out.println(firstLetterBig("as_A_1", '_'));
     }
 
