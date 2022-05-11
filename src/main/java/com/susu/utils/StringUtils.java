@@ -61,7 +61,7 @@ public class StringUtils {
         int j = 0;
         for (int i = 0; i < cs.length; i++) {
             if (cs[i] == regex) {
-                if (cs[i] >= 'a' && cs[i] <= 'z') {
+                if (cs[i + 1] >= 'a' && cs[i + 1] <= 'z') {
                     cs[i + 1] -= 32;
                 }
             }else {

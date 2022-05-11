@@ -18,7 +18,7 @@ public class ComputeUtils {
     private static final Pattern PATTERN = Pattern.compile("(?<!\\d)-?\\d+(\\.\\d+)?|[+\\-*/()]");
 
     /**
-     * <p>Description:  Four arithmetic</p>
+     * <p>Description: Four arithmetic</p>
      * <p>四则运算</p>
      * @param formula 公式
      */
