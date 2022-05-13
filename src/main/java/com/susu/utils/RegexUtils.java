@@ -1,5 +1,10 @@
 package com.susu.utils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -89,11 +94,29 @@ public class RegexUtils {
      */
     public static final String TELEPHONE_NUMBER = "[0-9-()（）]{7,18}";
 
+    /**
+     * <p>Description: ${key}</p>
+     * <p>能够匹配字符串中以${key}形式的文本(其中key为小写英文字母)</p>
+     */
+    public static final String KEY_$ = "\\$\\{([a-z]+)\\}";
+
+    /**
+     * <p>Description: ${key}</p>
+     * <p>可以用来检测文本中是否有${key}形式的文本</p>
+     */
+    public static final String IS_KEY_$ = ".*\\$\\{([a-z]+)\\}.*";
+
     public static boolean check(String line,String pattern) {
        return Pattern.matches(pattern, line);
     }
 
-    public static void main(String[] args) {
-        System.out.println(check("-2.0",FLOAT));
+    public static List<String> getValues(String line, String pattern) {
+        Pattern compile = Pattern.compile(pattern);
+        Set<String> set = new LinkedHashSet<>();
+        Matcher matcher = compile.matcher(line);
+        while (matcher.find()) {
+            set.add(matcher.group(1));
+        }
+        return new ArrayList<>(set);
     }
 }
