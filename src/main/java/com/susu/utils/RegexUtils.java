@@ -110,8 +110,8 @@ public class RegexUtils {
        return Pattern.matches(pattern, line);
     }
 
-    public static List<String> getValues(String line, String pattern) {
-        Pattern compile = Pattern.compile(pattern);
+    public static List<String> getKeyList(String line) {
+        Pattern compile = Pattern.compile(KEY_$);
         Set<String> set = new LinkedHashSet<>();
         Matcher matcher = compile.matcher(line);
         while (matcher.find()) {
