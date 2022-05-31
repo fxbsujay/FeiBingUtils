@@ -14,7 +14,7 @@ import java.lang.reflect.Proxy;
  */
 public class ProxyUtils {
 
-    public static Object getContext(Object obj) {
+    public static Object getProxyInstance(Object obj) {
         Class[] interfaces = { obj.getClass() };
         return Proxy.newProxyInstance(ProxyUtils.class.getClassLoader(), interfaces, new BeanProxyFactory(obj));
     }
