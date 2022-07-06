@@ -101,6 +101,21 @@ public class HexConvertUtils {
         return result;
     }
 
+    /**
+     * <p>Description: Hexadecimal string to ASCII</p>
+     * <p>16进制字符串转ASCII</p>
+     * @param str 16进制字符串
+     * @return 字节数组
+     */
+    public static String hexToASCII(String hex) {
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < hex.length(); i += 2) {
+            String str = hex.substring(i, i + 2);
+            sb.append((char) Integer.parseInt(str, 16));
+        }
+        return sb.toString();
+    }
+
     private static int toByte(char c) {
         if (c >= 'a') {
             return (c - 'a' + 10) & 0x0f;
@@ -153,5 +168,13 @@ public class HexConvertUtils {
         return decimal;
     }
 
+    public static int SumStrAscii(String str){
+        byte[] bytestr = str.getBytes();
+        int sum = 0;
+        for(int i=0;i<bytestr.length;i++){
+            sum += bytestr[i];
+        }
+        return sum;
+    }
 
 }
