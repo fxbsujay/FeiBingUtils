@@ -132,8 +132,8 @@ public class HexConvertUtils {
      * @param number 数值
      * @return 二进制数
      */
-    public static String decimalToBinary8(int number) {
-        return decimalToBinary(number,7);
+    public static String decToBin(int number) {
+        return decToBin(number,7);
     }
 
     /**
@@ -143,7 +143,7 @@ public class HexConvertUtils {
      * @param bit 位数 从 0 开始数 ， 如果位数为 8 位，则传入 7
      * @return 二进制数
      */
-    public static String decimalToBinary(int number,int bit) {
+    public static String decToBin(int number,int bit) {
         StringBuilder sb = new StringBuilder(bit + 1);
         for(int i = bit; i >= 0; i--) {
             int num = number >>> i & 1;
@@ -158,7 +158,7 @@ public class HexConvertUtils {
      * @param number 数值
      * @return 二进制数
      */
-    public static int binaryToDecimal(int number) {
+    public static int binToDec(int number) {
         int decimal = 0,p = 0;
         while(number!=0) {
             decimal += ( (number % 10) * Math.pow(2, p) );
@@ -168,13 +168,7 @@ public class HexConvertUtils {
         return decimal;
     }
 
-    public static int SumStrAscii(String str){
-        byte[] bytestr = str.getBytes();
-        int sum = 0;
-        for(int i=0;i<bytestr.length;i++){
-            sum += bytestr[i];
-        }
-        return sum;
+    public static void main(String[] args) {
+        System.out.println(Integer.toHexString(1398100821));
     }
-
 }
