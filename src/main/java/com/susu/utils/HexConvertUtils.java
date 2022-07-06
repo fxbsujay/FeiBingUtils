@@ -104,7 +104,7 @@ public class HexConvertUtils {
     /**
      * <p>Description: Hexadecimal string to ASCII</p>
      * <p>16进制字符串转ASCII</p>
-     * @param str 16进制字符串
+     * @param hex 16进制字符串
      * @return 字节数组
      */
     public static String hexToASCII(String hex) {
@@ -114,6 +114,16 @@ public class HexConvertUtils {
             sb.append((char) Integer.parseInt(str, 16));
         }
         return sb.toString();
+    }
+
+    /**
+     * <p>Description: Hexadecimal string to ASCII</p>
+     * <p>十进制字符串转ASCII</p>
+     * @param dec 10进制int
+     * @return 字节数组
+     */
+    public static String decToASCII(int dec) {
+       return hexToASCII(Integer.toHexString(dec));
     }
 
     private static int toByte(char c) {
