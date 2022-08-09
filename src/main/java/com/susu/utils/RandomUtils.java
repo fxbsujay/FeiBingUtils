@@ -64,6 +64,6 @@ public class RandomUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println("获取随机数:" + getRandom(10));
+        System.out.println( getRandom(10));
     }
 }

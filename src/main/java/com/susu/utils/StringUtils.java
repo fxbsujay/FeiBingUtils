@@ -307,6 +307,25 @@ public class StringUtils {
         return i;
     }
 
+    /**
+     * <p>Description: string reverse </p>
+     */
+    public static String reverse(String str) {
+        int start = 0;
+        int end = str.length() - 1;
+        char[] chars = str.toCharArray();
+        while (start < end) {
+            char c = chars[end];
+            chars[end] = chars[start];
+            chars[start] = c;
+            start++;
+            end--;
+        }
+        return new String(chars);
+    }
+
+
+
     public static void main(String[] args) {
         String str = "  Hello Word Java ";
         Object obj = "  Hello Word Java ";
