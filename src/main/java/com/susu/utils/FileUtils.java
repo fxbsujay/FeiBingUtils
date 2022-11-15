@@ -63,6 +63,20 @@ public class FileUtils {
     }
 
     /**
+     * <p>Description: Get file extension</p>
+     * <p>获取文件名后缀</p>
+     *
+     * @param filename 文件名
+     */
+    public static String getExtension(String filename) {
+        String[] split = filename.split("\\.");
+        if (split.length > 1) {
+            return split[split.length -1];
+        }
+        return null;
+    }
+
+    /**
      * <p>Description: Writing files in NiO mode</p>
      * <p>NIO方式写文件</p>
      *
