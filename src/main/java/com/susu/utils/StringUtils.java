@@ -14,13 +14,14 @@ public class StringUtils {
 
     /**
      * <p>将字符串text中由openToken和closeToken组成的占位符依次替换为args数组中的值</p>
+     *
      * @param openToken 开始字符
      * @param closeToken 结束字符
      * @param text 目标字符
      * @param args 替换字符
      */
     public static String parse(String openToken, String closeToken, String text, Object... args) {
-        if (args == null || args.length <= 0) {
+        if (args == null || args.length == 0) {
             return text;
         }
         int argsIndex =0;
@@ -53,9 +54,9 @@ public class StringUtils {
                         expression.append(src, offset, end - offset -1).append(closeToken);
                         offset = end + closeToken.length();
                         end = text.indexOf(closeToken, offset);
-                    }else {
-                        expression.append(src, offset, end - offset);
+                    } else {
                         offset = end + closeToken.length();
+                        expression.append(src, offset, end - offset);
                         break;
                     }
                 }
@@ -293,6 +294,7 @@ public class StringUtils {
         return i;
     }
 
+
     public static int removeElement(int[] nums, int val) {
         int len = nums.length;
         int i = 0;
@@ -324,7 +326,40 @@ public class StringUtils {
         return new String(chars);
     }
 
+    /**
+     * <p>Description: Add suffix to string</p>
+     * <p>给字符串添加后缀</p>
+     */
+    public static String appendSuffix(String str, String suffix) {
+        if (str != null && !isEmpty(suffix) && !str.endsWith(suffix)) {
+            return str.concat(suffix);
+        } else {
+            return str;
+        }
+    }
 
+    public static String removePrefix(String str, String prefix) {
+        return removePrefix(str, new String[]{ prefix });
+    }
+
+    /**
+     * <p>Description: Delete string specified prefix.</p>
+     * <p>删除字符串指定前缀</p>
+     */
+    public static String removePrefix(String str, String[] prefixes) {
+        if (isEmpty(str)) {
+            return "";
+        } else {
+            if (null != prefixes) {
+                for (String pf : prefixes) {
+                    if (str.toLowerCase().matches("^" + pf.toLowerCase() + ".*")) {
+                        return str.substring(pf.length());
+                    }
+                }
+            }
+            return str;
+        }
+    }
 
     public static void main(String[] args) {
         String str = "  Hello Word Java ";
@@ -333,9 +368,11 @@ public class StringUtils {
         System.out.println("删除字符串中所有空白" + dispelBlankAll(str));
         System.out.println("字符串转换" + toString(obj));
         System.out.println("首字母大写" + firstLetterBig(" hello"));
-        System.out.println("首字母小写" + firstLetterSmall(" Hello Word"));
+        System.out.println("首字母小写" + firstLetterSmall(" Hello World"));
         System.out.println("是否全是数字" + isAllDigital(" 0000"));
         System.out.println(firstLetterBig("as_A_1", '_'));
+        System.out.println("去掉字符串前缀" + removePrefix("Hello World", "Hello"));
+        System.out.println("添加后缀" + appendSuffix("Hello", " World"));
     }
 
 }

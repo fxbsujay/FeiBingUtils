@@ -1,7 +1,5 @@
 package com.susu.utils;
 
-
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
