@@ -15,23 +15,22 @@ import java.lang.reflect.Proxy;
 public class ProxyUtils {
 
     public static Object getProxyInstance(Object obj) {
-        Class[] interfaces = { obj.getClass() };
+        Class<?>[] interfaces = { obj.getClass() };
         return Proxy.newProxyInstance(ProxyUtils.class.getClassLoader(), interfaces, new BeanProxyFactory(obj));
     }
 
-}
+    public static class BeanProxyFactory implements InvocationHandler {
 
+        private final Object obj;
 
-class BeanProxyFactory implements InvocationHandler {
+        public BeanProxyFactory(Object obj) {
+            this.obj = obj;
+        }
 
-    private final Object obj;
-
-    public BeanProxyFactory(Object obj) {
-        this.obj = obj;
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            return method.invoke(obj,args);
+        }
     }
 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return method.invoke(obj,args);
-    }
 }
