@@ -23,14 +23,13 @@ public class ComputeUtils {
      * @param formula 公式
      */
     public static String compute(String formula) throws Exception {
-        System.out.println("计算"+formula);
-        /*数字栈*/
-        Stack<Double> number = new Stack<Double>();
-        /*符号栈*/
-        Stack<String> operator = new Stack<String>();
+        // 数字栈
+        Stack<Double> number = new Stack<>();
+        // 符号栈
+        Stack<String> operator = new Stack<>();
         operator.push(null);
 
-        /* 将expr打散为运算数和运算符 */
+        // 将expr打散为运算数和运算符
         Matcher m = PATTERN.matcher(formula);
         while(m.find()) {
             String temp = m.group();
@@ -40,9 +39,8 @@ public class ComputeUtils {
                     operator.push(temp);
                 }else if(")".equals(temp)){
                     // 遇到右括号，"符号栈弹栈取栈顶符号b，数字栈弹栈取栈顶数字a1，数字栈弹栈取栈顶数字a2，计算a2 b a1 ,将结果压入数字栈"，重复引号步骤至取栈顶为左括号，将左括号弹出
-                    String b = null;
+                    String b;
                     while(!"(".equals(b = operator.pop())) {
-                        System.out.println("符号栈更新："+operator);
                         double a1 = number.pop();
                         double a2 = number.pop();
                         number.push(doubleCal(a2, a1, b.charAt(0)));
@@ -70,7 +68,7 @@ public class ComputeUtils {
             String b = operator.pop();
             number.push(doubleCal(a2, a1, b.charAt(0)));
         }
-        return number.pop()+"";
+        return String.valueOf(number.pop());
     }
 
     /**
@@ -108,10 +106,10 @@ public class ComputeUtils {
         switch(s) {
             case "(":
                 return 1;
-            case "+":;
+            case "+":
             case "-":
                 return 2;
-            case "*":;
+            case "*":
             case "/":
                 return 3;
             default:
