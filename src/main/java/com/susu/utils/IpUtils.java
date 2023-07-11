@@ -1,5 +1,6 @@
 package com.susu.utils;
 
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -15,6 +16,9 @@ import java.util.Enumeration;
  */
 public class IpUtils {
 
+    /**
+     * Get request ip
+     */
     public static String getIp(HttpServletRequest request) {
         String unknown = "unknown";
         String ip = null;
@@ -42,8 +46,16 @@ public class IpUtils {
         return ip;
     }
 
+    /**
+     * Get localhost
+     */
     public static String getIp() {
+
         try {
+            if (!isLinux()) {
+                return InetAddress.getLocalHost().getHostAddress();
+            }
+
             Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
             InetAddress ip;
             while (allNetInterfaces.hasMoreElements()) {
@@ -62,5 +74,24 @@ public class IpUtils {
             throw new RuntimeException("Get ip address error, exception message:" + e.getMessage());
         }
         return "localhost";
+    }
+
+    public static String getOsName() {
+        return System.getProperty("os.name");
+    }
+
+    public static boolean isWindows() {
+        String osName = getOsName();
+        return osName != null && osName.startsWith("Windows");
+    }
+
+    public static boolean isMacOs() {
+        String osName = getOsName();
+        return osName != null && osName.startsWith("Mac");
+    }
+
+    public static boolean isLinux() {
+        String osName = getOsName();
+        return (osName != null && osName.startsWith("Linux")) || (!isWindows() && !isMacOs());
     }
 }
