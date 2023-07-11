@@ -1,6 +1,10 @@
 package com.susu.utils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 
 /**
  * <p>Description: Image generation and recognition</p>
@@ -32,9 +36,31 @@ public class IpUtils {
                 ip = request.getRemoteAddr();
             }
         } catch (Exception e) {
-           throw new RuntimeException("Ip解析失败！");
+           throw new RuntimeException("Ip parsing failed");
         }
 
         return ip;
+    }
+
+    public static String getIp() {
+        try {
+            Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip;
+            while (allNetInterfaces.hasMoreElements()) {
+                NetworkInterface netInterface = allNetInterfaces.nextElement();
+                if (!netInterface.isLoopback() && !netInterface.isVirtual() && netInterface.isUp()) {
+                    Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        ip = addresses.nextElement();
+                        if (ip instanceof Inet4Address) {
+                            return ip.getHostAddress();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Get ip address error, exception message:" + e.getMessage());
+        }
+        return "localhost";
     }
 }
