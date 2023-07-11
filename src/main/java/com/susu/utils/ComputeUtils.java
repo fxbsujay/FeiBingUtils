@@ -39,7 +39,7 @@ public class ComputeUtils {
                     operator.push(temp);
                 }else if(")".equals(temp)){
                     // 遇到右括号，"符号栈弹栈取栈顶符号b，数字栈弹栈取栈顶数字a1，数字栈弹栈取栈顶数字a2，计算a2 b a1 ,将结果压入数字栈"，重复引号步骤至取栈顶为左括号，将左括号弹出
-                    String b = null;
+                    String b;
                     while(!"(".equals(b = operator.pop())) {
                         double a1 = number.pop();
                         double a2 = number.pop();
@@ -106,10 +106,10 @@ public class ComputeUtils {
         switch(s) {
             case "(":
                 return 1;
-            case "+":;
+            case "+":
             case "-":
                 return 2;
-            case "*":;
+            case "*":
             case "/":
                 return 3;
             default:
