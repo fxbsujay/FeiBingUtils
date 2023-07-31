@@ -373,6 +373,7 @@ public class StringUtils {
         System.out.println(firstLetterBig("as_A_1", '_'));
         System.out.println("去掉字符串前缀" + removePrefix("Hello World", "Hello"));
         System.out.println("添加后缀" + appendSuffix("Hello", " World"));
+        System.out.println("UUID" + uuid().length());
     }
 
 }
