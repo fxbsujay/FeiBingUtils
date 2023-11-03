@@ -235,7 +235,6 @@ public class FileUtils {
         if (directory != null && directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
             if (null != files) {
-                int length = files.length;
                 for (File childFile : files) {
                     if (!del(childFile)) {
                         return false;
@@ -261,7 +260,7 @@ public class FileUtils {
         ZipOutputStream zos = null;
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(new File(outPath));
+            fos = new FileOutputStream(outPath);
             zos = new ZipOutputStream(fos);
 
             compress(null, source, zos, keepDirStructure);
@@ -329,9 +328,9 @@ public class FileUtils {
      */
     public static void toZip(String outPath, String... inPaths) throws RuntimeException {
         ZipOutputStream zos = null;
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
-            fos = new FileOutputStream(new File(outPath));
+            fos = new FileOutputStream(outPath);
             zos = new ZipOutputStream(fos);
             byte[] buf = new byte[BUFFER_SIZE];
             for (String path : inPaths) {

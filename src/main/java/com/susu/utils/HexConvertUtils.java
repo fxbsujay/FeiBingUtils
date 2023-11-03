@@ -108,7 +108,7 @@ public class HexConvertUtils {
      * @return 字节数组
      */
     public static String hexToASCII(String hex) {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hex.length(); i += 2) {
             String str = hex.substring(i, i + 2);
             sb.append((char) Integer.parseInt(str, 16));

@@ -13,7 +13,7 @@ public class RandomUtils {
 
     public static final Random RANDOM = new Random();
 
-    public static final String RANDOM_KEY = "12341567908753hwhf09123078hdjfbmnbvcxzfjasdhfkldhfgweyqrqwuieypqre103578493215";
+    public static final String RANDOM_KEY = "a1b2c3d4e5f6g7h8r9g0k1l2m3n4o5p6q7i8s9t0uvwxyz";
 
 
     /**
@@ -61,9 +61,5 @@ public class RandomUtils {
         }
         String s = sb.toString();
         return upperCase ? s.toUpperCase() : s;
-    }
-
-    public static void main(String[] args) {
-        System.out.println( getRandom(10));
     }
 }
