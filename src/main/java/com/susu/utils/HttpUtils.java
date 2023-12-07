@@ -18,7 +18,7 @@ import java.util.*;
 public class HttpUtils {
 
     public static void main(String[] args) throws IOException {
-        System.out.println(new String(get("https://fengkeai-ui-pro.1cno.com/api/auth/getWebsiteConfigure/fengkeai-ui-pro"), StandardCharsets.UTF_8));
+        System.out.println(new String(get("https://www.baidu.com"), StandardCharsets.UTF_8));
         File file = download("http://xuebin.xyz/rabbit.jpg", "G:\\file.jpg");
 
         Map<String, Object> data = new HashMap<>();
@@ -143,7 +143,7 @@ public class HttpUtils {
             return this;
         }
 
-        private HttpRequest header(){
+        private HttpRequest header() {
             if (!header.isEmpty()) {
                 for (String name : header.keySet()) {
                     conn.setRequestProperty(name, header.get(name));
