@@ -18,14 +18,21 @@ import java.util.*;
 public class HttpUtils {
 
     public static void main(String[] args) throws IOException {
-        System.out.println(new String(get("https://www.baidu.com"), StandardCharsets.UTF_8));
+        // 发送 GET 请求
+        System.out.println(new String(get("https://www.baidu.com")));
+
+        // 下载文件
         File file = download("http://xuebin.xyz/rabbit.jpg", "G:\\file.jpg");
 
+        // 发送 POST 请求，设置 json 格式参数
+        new String(post("http://localhost:8849/demo", "{ \"name\": \"Ming\", \"age\": \"18\" }"));
+
+        // 发送 POST 请求， 设置 multipart/form-data 格式参数
         Map<String, Object> data = new HashMap<>();
         data.put("file", new File[]{file, new File("G:\\file.jpg")});
         data.put("img", file);
         data.put("data", 1);
-        System.out.println(new String(post("http://localhost:8849/auth/file", data), StandardCharsets.UTF_8));
+        System.out.println(new String(post("http://localhost:8849/auth/file", data)));
     }
 
     public static final String GET = "GET";
