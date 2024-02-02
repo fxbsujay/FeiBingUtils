@@ -241,13 +241,15 @@ public class NioUtils {
 
         @Override
         public void listen() throws IOException {
-            new Thread(() -> {
+            Thread thread = new Thread(() -> {
                 try {
                     super.listen();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
+            thread.setDaemon(true);
+            thread.start();
         }
 
         @Override
