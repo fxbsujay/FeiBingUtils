@@ -21,7 +21,15 @@ public class HttpUtils {
         // 发送 GET 请求
         System.out.println(new String(get("https://www.baidu.com")));
 
-        // 下载文件
+        // 发送 GET 请求并拼接参数
+        Map<String, String> params = new HashMap<>();
+        params.put("type", "GET");
+        params.put("name", "JAVA");
+
+        String url = buildUrl("https://www.baidu.com/", params);
+        System.out.println(url);
+
+        // GET 下载文件
         File file = download("http://xuebin.xyz/rabbit.jpg", "G:\\file.jpg");
 
         // 发送 POST 请求，设置 json 格式参数
@@ -95,6 +103,41 @@ public class HttpUtils {
             }
         }
         return file;
+    }
+
+    public static String buildUrl(String url, Map<String, String> params) {
+
+        if (url == null || url.isEmpty()) {
+            return url;
+        }
+
+        StringBuilder result = new StringBuilder(url);
+        if (result.charAt(result.length() - 1) == '/') {
+            result.deleteCharAt(result.length() - 1);
+        }
+
+        if (params == null || params.isEmpty()) {
+            return result.toString();
+        }
+
+        result.append("?");
+
+        for (String key : params.keySet()) {
+            String value = params.get(key);
+            if (value == null) {
+                continue;
+            }
+
+            if (result.length() >= url.length() + 1) {
+                result.append("&");
+            }
+
+            result.append(key);
+            result.append("=");
+            result.append(params.get(key));
+        }
+
+        return result.toString();
     }
 
     /**
