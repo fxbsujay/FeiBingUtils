@@ -78,14 +78,18 @@ public class HttpUtils {
         return new HttpRequest(url).method(method).header().send(formData).response();
     }
 
-    /**
-     * 下载文件
-     *
-     * @param url       下载连接
-     * @param filename  下载到本地的文件路径
-     */
     public static File download(String url, String filename) {
-        byte[] bytes = get(url);
+       return toFile(get(url), filename);
+    }
+
+    /**
+     * 转换文件
+     *
+     * @param bytes     文件字节
+     * @param filename  保存到本地的文件路径
+     */
+    public static File toFile(byte[] bytes, String filename) {
+
         File file = new File(filename);
         FileOutputStream fos = null;
         try {
