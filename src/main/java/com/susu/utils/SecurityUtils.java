@@ -474,7 +474,7 @@ public class SecurityUtils {
 
         System.out.println("bCrypt==" + encoded);
         System.out.println("生成随机密钥==" + genSalt(SALT_$2Y, 10));
-        System.out.println("匹配结果==" + matchesBCrypt("AAA", encoded));
+        System.out.println("匹配结果==" + matchesBCrypt("234234234fiweufh3245", encoded));
         System.out.println("md5加密==" + md5(content));
 
         String encodeBase64 = encodeBase64(content);

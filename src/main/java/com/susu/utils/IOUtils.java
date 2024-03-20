@@ -23,13 +23,13 @@ public class IOUtils {
     /**
      * <p>Description: Close one or more flow objects</p>
      * <p>关闭一个或多个流对象</p>
-     * @param closeables 流
+     * @param closeable 流
      */
-    public static void close(Closeable... closeables) throws IOException {
-        if (closeables != null) {
-            for (Closeable closeable : closeables) {
-                if (closeable != null) {
-                    closeable.close();
+    public static void close(Closeable ...closeable) throws IOException {
+        if (closeable != null) {
+            for (Closeable c : closeable) {
+                if (c != null) {
+                    c.close();
                 }
             }
         }
@@ -38,11 +38,11 @@ public class IOUtils {
     /**
      * <p>Description: Close one or more flow objects</p>
      * <p>关闭一个或多个流对象，并处理异常</p>
-     * @param closeables 流
+     * @param closeable 流
      */
-    public static void closeQuietly(Closeable... closeables) {
+    public static void closeQuietly(Closeable ...closeable) {
         try {
-            close(closeables);
+            close(closeable);
         } catch (IOException e) {
             // TODO 随便写点
         }
