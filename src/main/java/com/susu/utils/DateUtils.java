@@ -84,7 +84,7 @@ public class DateUtils {
      *  <p>获取日期类</p>
      */
     public static LocalDateTime getLocalDateTime() {
-        return  LocalDateTime.now();
+        return LocalDateTime.now();
     }
 
     public static LocalDateTime getLocalDateTime(Date date) {
@@ -92,7 +92,7 @@ public class DateUtils {
             return null;
         }
         Instant instant = date.toInstant();
-        return  instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     /**

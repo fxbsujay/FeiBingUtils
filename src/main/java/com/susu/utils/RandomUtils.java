@@ -13,8 +13,40 @@ public class RandomUtils {
 
     public static final Random RANDOM = new Random();
 
-    public static final String RANDOM_KEY = "a1b2c3d4e5f6g7h8r9g0k1l2m3n4o5p6q7i8s9t0uvwxyz";
+    /**
+     * 纯数字
+     */
+    public static final String NUMBER = "0123456789";
 
+    /**
+     * 小写英文字母
+     */
+    public static final String SMALL_LETTERS = "abcdefghrjklmnopqistuvwxyz";
+
+    /**
+     * 大写英文字母
+     */
+    public static final String BIG_LETTERS = "ABCDEFGHRJKLMNOPQISTUVWXYZ";
+
+    /**
+     * 符号
+     */
+    public static final String SYMBOLS = "#@!%_&./^?";
+
+    /**
+     * 数字 + 小写英文字母
+     */
+    public static final String DEFAULT = NUMBER + SMALL_LETTERS;
+
+    /**
+     * 大小写英文字母
+     */
+    public static final String LETTERS = SMALL_LETTERS + BIG_LETTERS;
+
+    /**
+     * 数字 + 大小写英文字母
+     */
+    public static final String LETTERS_NUMBER = NUMBER + LETTERS;
 
     /**
      *
@@ -24,7 +56,7 @@ public class RandomUtils {
      * @return 随机字符串
      */
     public static String getRandom(int length) {
-        return getRandom(length, RANDOM_KEY);
+        return getRandom(length, false);
     }
 
     /**
@@ -34,7 +66,7 @@ public class RandomUtils {
      * @return 随机字符串
      */
     public static String getRandom(int length, boolean upperCase) {
-        return getRandom(length, RANDOM_KEY, upperCase);
+        return getRandom(length, DEFAULT, upperCase);
     }
 
     /**
@@ -51,6 +83,7 @@ public class RandomUtils {
      * <p>Description: Generate random number</p>
      * <p>获取随机字符串</p>
      * @param length 字符串长度
+     * @param upperCase 是否小写字母转大写字母
      * @return 随机字符串
      */
     public static String getRandom(int length, String key, boolean upperCase) {
@@ -61,5 +94,14 @@ public class RandomUtils {
         }
         String s = sb.toString();
         return upperCase ? s.toUpperCase() : s;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getRandom(6));
+        System.out.println(getRandom(6, true));
+        System.out.println(getRandom(6, NUMBER));
+        System.out.println(getRandom(6, LETTERS));
+        System.out.println(getRandom(6, LETTERS_NUMBER));
+        System.out.println(getRandom(6, SYMBOLS));
     }
 }
