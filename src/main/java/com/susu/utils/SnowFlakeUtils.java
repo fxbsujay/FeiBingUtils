@@ -1,5 +1,7 @@
 package com.susu.utils;
 
+import java.math.BigInteger;
+
 /**
  * <p>Description: Snow flakeId Worker</p>
  * <p>雪花算法ID</p>
@@ -139,11 +141,12 @@ public class SnowFlakeUtils {
         return System.currentTimeMillis();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SnowFlakeUtils utilA = new SnowFlakeUtils(1,1);
-        for (int i = 0; i < 10; i++) {
-            long id = utilA.nextId();
-            System.out.println(id);
+        for (int i = 0; i < 20; i++) {
+            Long id = utilA.nextId();
+            Thread.sleep(1000);
+            System.out.println(new BigInteger(id.toString()).toString(36));
         }
 
         SnowFlakeUtils utilB = new SnowFlakeUtils(2,1);

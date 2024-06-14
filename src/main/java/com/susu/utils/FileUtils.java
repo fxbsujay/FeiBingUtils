@@ -6,6 +6,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -119,6 +120,7 @@ public class FileUtils {
     public static void mkdirs(String pathName) {
         File file = new File(pathName);
         file.mkdirs();
+
     }
 
     /**
@@ -538,5 +540,46 @@ public class FileUtils {
             }
         }
         return file;
+    }
+
+    /**
+     * 获取指定文件最后修改时间
+     *
+     * @param file  目标文件
+     */
+    public static Date lastModifiedTime(File file) {
+        if (null == file || !file.exists()) {
+            return null;
+        }
+        return new Date(file.lastModified());
+    }
+
+    /**
+     * <p>Description: Calculate the total size of a directory or file</p>
+     *
+     * 计算目录或文件的总大小
+     *
+     * @param file  目标文件
+     * @return size 文件大小 bytes 字节长度
+     */
+    public static long size(File file) {
+        if (null != file && file.exists() && !Files.isSymbolicLink(file.toPath())) {
+            if (!file.isDirectory()) {
+                return file.length();
+            } else {
+                long size = 0L;
+                File[] subFiles = file.listFiles();
+                if (subFiles == null || subFiles.length == 0) {
+                    return 0L;
+                } else {
+                    for (File subFile : subFiles) {
+                        size += size(subFile);
+                    }
+                    return size;
+                }
+            }
+        } else {
+            return 0L;
+        }
     }
 }
