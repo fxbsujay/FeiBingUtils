@@ -11,7 +11,7 @@ import java.util.Enumeration;
  * <p>Description: Image generation and recognition</p>
  * <p>解析Ip地址</p>
  * @author sujay
- * @version 14:39 2022/2/18
+ * @version 14:39 2022/02/18
  * @since JDK1.8 <br/>
  */
 public class IpUtils {
@@ -27,7 +27,7 @@ public class IpUtils {
             if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("Proxy-Client-IP");
             }
-            if (StringUtils.isEmpty(ip) || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            if (StringUtils.isEmpty(ip) || ip.isEmpty() || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("WL-Proxy-Client-IP");
             }
             if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
