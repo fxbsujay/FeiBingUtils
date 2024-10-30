@@ -119,7 +119,56 @@ public class ImgUtils {
         writer.dispose();
     }
 
+    public static void pressText(File source, File target, String text) throws IOException {
+        pressText(source, target, text, 1,null, null, null, null);
+    }
+
+    /**
+     * <p>Description: Add text watermark </p>
+     * <p>添加文字水印</p>
+     *
+     * @param source    源文件
+     * @param target    目标文件
+     * @param text      水印文本
+     * @param transparency  水印透明度
+     * @param color     文本颜色
+     * @param font      文本字体
+     * @param x         水印在图片X轴的开始位置，默认居中
+     * @param y         水印在图片Y轴的开始位置，默认居中
+     * @throws IOException 文件流异常
+     */
+    public static void pressText(File source, File target, String text, float transparency, Color color, Font font, Integer x, Integer y) throws IOException {
+        BufferedImage sourceImage = ImageIO.read(source);
+        Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
+
+        g2d.setComposite(AlphaComposite.getInstance(10, transparency));
+        g2d.setColor(null != color ? color : Color.BLACK);
+        g2d.setFont(null != font ? font : new Font("SansSerif", Font.BOLD, (int) (sourceImage.getHeight() * 0.35)));
+
+        if (null == x || null == y) {
+            int size = g2d.getFontMetrics(g2d.getFont()).charsWidth(text.toCharArray(), 0, text.length());
+            x = (sourceImage.getWidth() - size) / 2;
+            y = sourceImage.getHeight() / 2;
+        }
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawString(text, x, y);
+        g2d.dispose();
+        String suffix = getExtension(target.getName());
+        ImageIO.write(sourceImage, null != suffix ? suffix : IMAGE_TYPE_JPG, target);
+    }
+
     public static void main(String[] args) throws IOException {
-        convert(new File("G:\\A.png"), new File("G:\\B.jpg"), 0.5f, 0.5f);
+        convert(new File("G:\\xxx.jpg"),
+                new File("G:\\x.jpg"), 0.5f, 0.5f);
+        pressText(
+                new File("G:\\xxx.jpg"),
+                new File("G:\\x.jpg"),
+                "测试水印",
+                0.5f,
+                Color.BLUE,
+                new Font("SansSerif", Font.BOLD, 200),
+                400,
+                400);
     }
 }
