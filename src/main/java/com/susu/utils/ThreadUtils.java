@@ -179,4 +179,32 @@ public class ThreadUtils {
         }
         return null;
     }
+
+    /**
+     * 获取当前线程的名字
+     */
+    public static String getCurrentThreadName() {
+        return Thread.currentThread().getName();
+    }
+
+    /**
+     * 使用虚拟线程执行任务
+     *
+     * @param name  线程名称
+     */
+    public static Thread virtualTask(Runnable runnable, String name) {
+        return Thread.ofVirtual().name(name).start(runnable);
+    }
+
+    /**
+     * 判断是否为虚拟线程
+     */
+    public static Boolean isVirtual() {
+        return isVirtual(Thread.currentThread());
+    }
+
+    public static Boolean isVirtual(Thread thread) {
+        return thread.isVirtual();
+    }
+
 }
